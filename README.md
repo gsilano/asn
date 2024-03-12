@@ -380,7 +380,7 @@ ESITI PUBBLICATI 190/190
 
 - 22/12/2022 01 A6  Ricerca operativa	 [I fascia](https://asn21.cineca.it/pubblico/miur/esito/01%252FA6/1/4) [II fascia](https://asn21.cineca.it/pubblico/miur/esito/01%252FA6/2/4) 
 
-UPDATED 2024-03-12 20:10:42.984669
+UPDATED 2024-03-12 21:11:11.749056
 ######################################################
 
 Si tratta di un semplice script in python per controllare quando sono pubblicati gli esiti (ASN 2021, quarto quadrimestre).
