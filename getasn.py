@@ -1,57 +1,65 @@
 import requests
 import os
 import csv, smtplib, ssl
-from email.mime.text import MIMEText
-import shutil
-from datetime import datetime, timedelta
+from email.mime.text import MIMEText 
+import shutil 
+from datetime import datetime, timedelta   
+from utilities import * 
 
-notify=False 
- 
+notify=True    
+
 f=open('secs.txt','r')
 lines=f.readlines()
-f.close()
+f.close() 
 
 
-trues=[]
+trues=[] 
 falses=[]
 sectors=[]
 dates=[]
+r1=[]
+r2=[]
 for line in lines:
     check=False
     s1=line.split()[0]
     s2=line.split()[1]
-    page="https://asn21.cineca.it/pubblico/miur/esito/"+s1+"%252F"+s2+"/2/4"
-    response=requests.get(page)
-    text=response.text
-    if not ('Non risultano' in text):
+    page="https://asn21.cineca.it/pubblico/miur/esito/"+s1+"%252F"+s2+"/2/6"
+    l=getfulllist(page,s1+s2)
+    #print(text)
+    if len(l)>0:
         check=True
-        v=text[text.find("Dal"):]
-        try:
-            date=v.split()[1]
-        except:
-            check=False
-    if not check:
-        page="https://asn21.cineca.it/pubblico/miur/esito/"+s1+"%252F"+s2+"/1/4"
-        response=requests.get(page)
-        text=response.text
-        if not ('Non risultano' in text):
-            check=True
-            v=text[text.find("Dal"):]
-            try:
-                date=v.split()[1]
-            except:
-                check=False
+        res2=evstats(l)
+        date=None
+        for item in l:
+            if item["Esito"]=="Si":
+                date=item["Data"]
+                break
+
+    page="https://asn21.cineca.it/pubblico/miur/esito/"+s1+"%252F"+s2+"/1/6"
+    l=getfulllist(page,s1+s2)
+    if len(l)>0:
+        check=True
+        res1=evstats(l)
+        if date!=None:
+            for item in l:
+                if item["Esito"]=="Si":
+                    date=item["Data"]
+                    break
+
     if check:
         dates.append(date)
         trues.append(line)
         sectors.append(line.split()[0]+'/'+line.split()[1])
+        r1.append(res1)
+        r2.append(res2)
     else:
         falses.append(line)
-    print(line+str(check))
+    print(line.split()[0]+'/'+line.split()[1]+' '+str(check))
 
 if ((notify==True) and (len(trues)>0)):   
     from_address = "asnrisultati@gmail.com"
-    password = "provaprova"
+    password = "kshrmwjnslgjyamw"
+
 
     msg = MIMEText('This is test mail')
     msg['Subject'] = 'Test mail'
@@ -89,7 +97,8 @@ for line in trues:
     i+=1
     f1.write('- '+dates[i]+' '+line)
     f3.write('')
-    f3.write('- '+dates[i]+' '+line)
+    #f3.write('- '+dates[i]+' '+line)
+    f3.write('- '+dates[i]+' '+line.rstrip('\n')+' PERCENTUALI: '+str(round(r1[i]*1000)/10)+' (I) '+str(round(r2[i]*1000)/10)+" (II)\n")
 
 f1.close()
 f2.close()
@@ -111,13 +120,25 @@ f.close()
 f=open('README.md','w')
 #f.write('visita il sito [https://www.risultatiasn.it](https://www.risultatiasn.it) (aggiornato in tempo reale)\n')
 f.write('ESITI PUBBLICATI '+str(count)+'/190 \n')
+secs.sort(key=lambda date: (datetime.strptime(date.split()[1], '%d/%m/%Y'), date.split()[2], date.split()[3]))
 for sec in secs[::-1]:
     s1=sec.split()[2]
     s2=sec.split()[3]
-    p1="https://asn21.cineca.it/pubblico/miur/esito/"+s1+"%252F"+s2+"/1/4"
-    p2="https://asn21.cineca.it/pubblico/miur/esito/"+s1+"%252F"+s2+"/2/4"
+    p1="https://asn21.cineca.it/pubblico/miur/esito/"+s1+"%252F"+s2+"/1/6"
+    p2="https://asn21.cineca.it/pubblico/miur/esito/"+s1+"%252F"+s2+"/2/6"
     f.write('\n')
-    f.write(sec.rstrip("\n")+" [I fascia]("+p1+") [II fascia]("+p2+") \n")
+    f.write(sec.partition("PERCENTUALI")[0]+" [I fascia]("+p1+") [II fascia]("+p2+") \n")
+
+secs.sort(key=lambda date: (date.split()[2], date.split()[3]))
+f.write("\n")
+f.write("PERCENTUALI DI PASSAGGIO PER SETTORE:\n")
+for sec in secs:
+    s1=sec.split()[2]
+    s2=sec.split()[3]
+    f.write('\n')
+    f.write(s1+'/'+s2+': '+sec.partition("PERCENTUALI")[2])
+
+
 
 f.write('\n')
 now = datetime.now()
@@ -135,3 +156,5 @@ for line in lines:
         
         
 f.close()
+        
+        

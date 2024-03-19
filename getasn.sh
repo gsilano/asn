@@ -1,9 +1,10 @@
-mailaddr='dumm'
-if [ $# -lt 2 ]
-then   
+mailaddr='dumm'  
+
+if [ $# -lt 2 ]    
+then    
 	s=1
-	e=`wc secs.txt | awk '{print $1}'`
-else
+	e=`wc secs.txt | awk '{print $1}'` 
+else 
 	s=$1  
 	e=$2   
 fi  
@@ -26,10 +27,10 @@ while [ $i -le $e ]; do
    page=`cat page.html` 
    if [[ $page != *'Non risultano'* ]]; then
       check='True'
-      date=`grep Dal page.html | head -n1 | awk '{print $2}'`
+      date=`grep Dal page.html | head -n1 | awk '{print $2}'` 
    fi
    curl https://asn18.cineca.it/pubblico/miur/esito/${i1}%252F${i2}/1/6 >& page.html
-   page=`cat page.html` 
+   page=`cat page.html`   
    if [[ $page != *'Non risultano'* ]]; then
       check='True'
       date=`grep Dal page.html | head -n1 | awk '{print $2}'`
@@ -62,7 +63,7 @@ grep '/'  secs_ordered.txt > tmp.txt
 cat tmp.txt | awk '{print $0, "[I fascia](https://asn18.cineca.it/pubblico/miur/esito/"$3"%252F"$4"/1/6) [I    I fascia](https://asn18.cineca.it/pubblico/miur/esito/"$3"%252F"$4"/2/6)"}' >> README.md
 date=`date`
 echo "" >> README.md
-echo "UPDATED "$date >> README.md
+echo "UPDATED "$date >> README.md 
 echo "" >> README.md
 cat spiegazione.txt >> README.md
 if [ -f "newsecs.txt" ]; then

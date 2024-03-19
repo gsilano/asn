@@ -23,7 +23,7 @@
 04/A2 t.ghisu@unica.it
 04/A3 t.ghisu@unica.it
 04/A4 t.ghisu@unica.it
-05/A1 t.ghisu@unica.it
+05/A1 t.ghisu@unica.it 
 05/A2 t.ghisu@unica.it
 05/B1 t.ghisu@unica.it
 05/B2 t.ghisu@unica.it
@@ -108,7 +108,7 @@
 09/E4 t.ghisu@unica.it
 09/F1 t.ghisu@unica.it
 09/F2 t.ghisu@unica.it
-09/G1 t.ghisu@unica.it giuseppe.silano@ieee.org
+09/G1 t.ghisu@unica.it g.silano89@gmail.com
 09/G2 t.ghisu@unica.it
 09/H1 t.ghisu@unica.it barbaramartini.it@gmail.com
 10/A1 t.ghisu@unica.it
@@ -173,7 +173,7 @@
 13/B1 t.ghisu@unica.it
 13/B2 t.ghisu@unica.it
 13/B3 t.ghisu@unica.it
-13/B4 t.ghisu@unica.it
+13/B4 t.ghisu@unica.it davide.zappacosta@gmail.com
 13/B5 t.ghisu@unica.it
 13/C1 t.ghisu@unica.it
 13/D1 t.ghisu@unica.it
