@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ESITI PUBBLICATI 190/190 
 
 - 08/01/2024 11 A3  Storia contemporanea	  [I fascia](https://asn21.cineca.it/pubblico/miur/esito/11%252FA3/1/6) [II fascia](https://asn21.cineca.it/pubblico/miur/esito/11%252FA3/2/6) 
@@ -777,5 +776,3 @@ UPDATED 2024-05-21 13:23:16.847215
 ###################################################### 
 
 Si tratta di un semplice script in python per controllare quando sono pubblicati gli esiti (ASN 2021, sesto quadrimestre).
-
->>>>>>> tizianoghisu/main
