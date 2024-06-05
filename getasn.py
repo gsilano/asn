@@ -4,7 +4,7 @@ import csv, smtplib, ssl
 from email.mime.text import MIMEText 
 import shutil 
 from datetime import datetime, timedelta   
-from utilities import * 
+from utilities import *  
 
 notify=True    
 
@@ -29,17 +29,21 @@ for line in lines:
     if len(l)>0:
         check=True
         res2=evstats(l)
+        if 'res2' not in locals():
+            res2="-"
         date=None
         for item in l:
             if item["Esito"]=="Si":
                 date=item["Data"]
                 break
-    page="https://asn23.cineca.it/pubblico/miur/esito/"+s1+"%252F"+s2+"/1/1"
 
+    page="https://asn23.cineca.it/pubblico/miur/esito/"+s1+"%252F"+s2+"/1/1"
     l=getfulllist(page,s1+s2)
     if len(l)>0:
         check=True
         res1=evstats(l)
+        if 'res1' not in locals():
+            res1="-"
         if date!=None:
             for item in l:
                 if item["Esito"]=="Si":
@@ -50,8 +54,14 @@ for line in lines:
         dates.append(date)
         trues.append(line)
         sectors.append(line.split()[0]+'/'+line.split()[1])
-        r1.append(res1)
-        r2.append(res2)
+        if 'res1' in locals():
+            r1.append(str(round(res1*1000)/10))
+        else:
+            r1.append('-')
+        if 'res2' in locals():
+            r2.append(str(round(res2*1000)/10))
+        else:
+            r2.append('-')
     else:
         falses.append(line)
     print(line.split()[0]+'/'+line.split()[1]+' '+str(check))
@@ -98,7 +108,7 @@ for line in trues:
     f1.write('- '+dates[i]+' '+line)
     f3.write('')
     #f3.write('- '+dates[i]+' '+line)
-    f3.write('- '+dates[i]+' '+line.rstrip('\n')+' PERCENTUALI: '+str(round(r1[i]*1000)/10)+' (I) '+str(round(r2[i]*1000)/10)+" (II)\n")
+    f3.write('- '+dates[i]+' '+line.rstrip('\n')+' PERCENTUALI: '+r1[i]+' (I) '+r2[i]+" (II)\n")
 
 f1.close()
 f2.close()
